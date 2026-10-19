@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>English Space Race</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{height:100%;margin:0}
+body{font-family:'Fredoka','Arial Rounded MT Bold','Trebuchet MS',sans-serif;font-weight:600;color:#fff;background:radial-gradient(circle,#fff 0 .12vh,transparent .2vh) 0 0/9vh 9vh,linear-gradient(#150a3a,#2d1b69 70%,#4a2a8f);overflow:hidden}
+[hidden]{display:none!important}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.2vh;padding:2vh 3vw;text-align:center}
+h1{font-size:min(8vw,13vh);margin:0;color:#ffe45e;text-shadow:0 .8vh 0 #b620e0,0 0 4vh #ff6ad5}
+.sub{font-size:3.4vh}
+.btn{font:inherit;color:#fff;border:.5vh solid #3a0a5e;border-radius:3vh;background:linear-gradient(#ff6ad5,#b620e0);padding:1.6vh 3vw;font-size:4vh;box-shadow:0 1vh 0 #3a0a5e,inset 0 .5vh 0 rgba(255,255,255,.4);cursor:pointer;touch-action:manipulation}
+.btn:active{transform:translateY(.8vh);box-shadow:0 .2vh 0 #3a0a5e}
+.btn.gold{background:linear-gradient(#6df7ff,#17a2d6);color:#08294a;border-color:#08294a;box-shadow:0 1vh 0 #08294a,inset 0 .5vh 0 rgba(255,255,255,.5);font-size:5.5vh;padding:2vh 5vw}
+.btn.on{background:linear-gradient(#fff3a0,#f2c200);color:#4a2c00;outline:.8vh solid #fff}
+.row{display:flex;gap:2vw;flex-wrap:wrap;justify-content:center}
+#game{position:absolute;inset:0;display:flex;flex-direction:column;padding:1.2vh 2vw;gap:1vh}
+#info{text-align:center;font-size:3.4vh;color:#ffe45e}
+.track{position:relative;display:flex;flex-direction:column;gap:1vh}
+.lane{display:flex;align-items:center;gap:1.5vw;background:rgba(255,255,255,.1);border-radius:3vh;padding:.6vh 1.5vw;border:.4vh solid rgba(255,255,255,.3)}
+.lane.act{box-shadow:0 0 0 .6vh #ffe45e}
+.lane b{width:19vw;font-size:3.2vh;line-height:1.1}
+.lane small{display:block;font-size:2.6vh;color:#ffe45e}
+#l0 b{color:#ff9a9a}#l1 b{color:#8fdcff}
+.road{position:relative;flex:1;height:8.5vh;border-radius:5vh;background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 4vw,transparent 4vw 8vw)}
+.car{position:absolute;top:0;left:0;font-size:7vh;line-height:8.5vh;transition:left .9s ease-out}
+#c0{transform:rotate(45deg)}
+.fin{position:absolute;right:1%;top:0;font-size:7vh;line-height:8.5vh}
+.panel{flex:1;min-height:0;display:flex;flex-direction:column;gap:1vh;background:rgba(255,255,255,.12);border:.4vh solid rgba(255,255,255,.35);border-radius:3vh;padding:1.2vh 2vw}
+#who{font-size:3.2vh;text-align:center}
+#qt{position:relative;flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:4vh;border:.8vh solid #ffe45e;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-size:min(30vh,26vw);line-height:1;box-shadow:0 1vh 0 rgba(0,0,0,.3)}
+#qt.bn{border-color:#ff6ad5}
+.bs{position:absolute;left:2vw;top:1vh;font-size:7vh;font-style:normal}
+#pick{gap:3vw;flex-wrap:nowrap}
+#pick .btn{flex:1;font-size:min(6.5vh,5vw);padding:1.6vh 2vw}
+#pick .btn:first-child{background:linear-gradient(#ff9a8a,#d63c2a);border-color:#4a1008;box-shadow:0 1vh 0 #4a1008,inset 0 .5vh 0 rgba(255,255,255,.4)}
+#pick .btn:last-child{background:linear-gradient(#8fd8ff,#1a7bd0);border-color:#08345e;box-shadow:0 1vh 0 #08345e,inset 0 .5vh 0 rgba(255,255,255,.4)}
+.tm{height:2vh;background:#150a3a;border-radius:1vh;overflow:hidden}
+.tm i{display:block;height:100%;width:100%;background:linear-gradient(#6df7ff,#17a2d6)}
+.ans{display:grid;grid-template-columns:1fr 1fr;gap:1.2vh 2vw}
+.ans .btn{font-size:min(6.5vh,5vw);padding:1.1vh 0;background:linear-gradient(#fff,#d9d2f5);color:#2d1b69;border-color:#150a3a;box-shadow:0 .8vh 0 #150a3a}
+.ans .btn.ok{background:linear-gradient(#8dff6a,#2fb72a);color:#0c3a08}
+.ans .btn.no{background:linear-gradient(#ff8a8a,#c0262a);color:#fff}
+.pop{position:absolute;left:50%;top:15%;transform:translateX(-50%);font-size:min(9vh,8vw);color:#ffe45e;-webkit-text-stroke:.4vh #2d1b69;paint-order:stroke fill;animation:up 1.1s forwards;z-index:4;white-space:nowrap}
+@keyframes up{to{top:-10%;opacity:0}}
+#who.w0,#who.w1{font-size:5vh;padding:.8vh 2vw;border-radius:3vh;border:.5vh solid #fff;animation:pls 1s infinite;text-shadow:0 .4vh 0 rgba(0,0,0,.35)}
+#who.w0{background:linear-gradient(#ff7b6b,#d63c2a)}
+#who.w1{background:linear-gradient(#7fd0ff,#1a7bd0)}
+@keyframes pls{50%{transform:scale(1.03)}}
+.panel.p0{border-color:#ff6b5b;box-shadow:0 0 0 1vh #ff6b5b,0 0 5vh #ff6b5b}
+.panel.p1{border-color:#4fb4ff;box-shadow:0 0 0 1vh #4fb4ff,0 0 5vh #4fb4ff}
+.lane.act{animation:pls 1s infinite}
+#qt.q0{border-color:#ff6b5b}#qt.q1{border-color:#4fb4ff}
+#siap{position:absolute;inset:0;z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(21,10,58,.9);font-size:min(9vh,7vw);text-align:center;color:#ffe45e}
+#siap b{font-size:min(34vh,28vw);line-height:1;color:#fff}
+#trophy{font-size:min(30vh,22vw)}
+</style>
+</head>
+<body>
+<div id="start" class="screen">
+  <h1>🚀 English Space Race 🌕</h1>
+  <div class="sub">Lihat gambar, pilih nama Inggrisnya! Jawab benar: roketmu melaju.<br>Jawab salah: mundur. Siapa duluan sampai bulan? 3 ronde, 10 soal per ronde.</div>
+  <div class="row" id="lv">
+    <button class="btn on" data-l="1">🐶 Hewan</button>
+    <button class="btn" data-l="2">🌱 Tumbuhan</button>
+    <button class="btn" data-l="3">Campuran</button>
+  </div>
+  <button class="btn gold" id="go">MULAI BALAPAN</button>
+  <button class="btn" id="fs">⛶ Layar Penuh</button>
+</div>
+
+<div id="game" hidden>
+  <div id="siap" hidden></div>
+  <div id="info"></div>
+  <div class="track" id="track">
+    <div class="lane" id="l0"><b>🔴 Tim Merah<small id="p0">0%</small></b><div class="road"><span class="car" id="c0">🚀</span><span class="fin">🌕</span></div></div>
+    <div class="lane" id="l1"><b>🔵 Tim Biru<small id="p1">0%</small></b><div class="road"><span class="car" id="c1">🛸</span><span class="fin">🌕</span></div></div>
+  </div>
+  <div class="panel" id="panel">
+    <div id="who"></div>
+    <div id="qt"></div>
+    <div class="row" id="pick"><button class="btn" onclick="mulai(0)">🔴 Tim Merah</button><button class="btn" onclick="mulai(1)">🔵 Tim Biru</button></div>
+    <div class="tm" id="tmw" hidden><i id="tm"></i></div>
+    <div class="ans" id="ans" hidden></div>
+  </div>
+</div>
+
+<div id="end" class="screen" hidden>
+  <div id="trophy">🏆</div>
+  <h1 id="win"></h1>
+  <div class="sub" id="skor"></div>
+  <button class="btn gold" id="again">MAIN LAGI</button>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const r=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const NAMA=['Tim Merah','Tim Biru'],TIME=15000,SOAL=10;
+let lvl=1,pos,turn,locked,ans,timer,round,qn,wins,streak,bonus,AC,used=[];
+function bunyi(n){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+  const s={start:[[392,.1],[523,.15]],ok:[[523,.1],[659,.1],[784,.2]],no:[[220,.2],[165,.3]],win:[[523,.15],[659,.15],[784,.15],[1047,.4]]}[n];
+  let t=AC.currentTime;
+  s.forEach(([f,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type=n=='no'?'sawtooth':'square';o.frequency.value=f;g.gain.setValueAtTime(.15,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d);t+=d});
+}catch(e){}}
+const D={
+1:{e:[['🐶','Dog'],['🐱','Cat'],['🐮','Cow'],['🐷','Pig'],['🐔','Chicken'],['🐟','Fish'],['🐘','Elephant'],['🦁','Lion'],['🐯','Tiger'],['🐵','Monkey'],['🐰','Rabbit'],['🐴','Horse'],['🐸','Frog'],['🐍','Snake'],['🐦','Bird'],['🦆','Duck'],['🐑','Sheep'],['🐻','Bear'],['🐢','Turtle'],['🦋','Butterfly']],
+h:[['🦒','Giraffe'],['🦓','Zebra'],['🦘','Kangaroo'],['🐧','Penguin'],['🐙','Octopus'],['🦈','Shark'],['🐬','Dolphin'],['🦉','Owl'],['🦅','Eagle'],['🐊','Crocodile'],['🦀','Crab'],['🐝','Bee']]},
+2:{e:[['🍎','Apple'],['🍌','Banana'],['🍊','Orange'],['🍇','Grapes'],['🍉','Watermelon'],['🥕','Carrot'],['🌽','Corn'],['🌹','Rose'],['🌻','Sunflower'],['🌳','Tree'],['🥔','Potato'],['🍓','Strawberry'],['🍍','Pineapple'],['🥭','Mango'],['🍅','Tomato'],['🌵','Cactus']],
+h:[['🍋','Lemon'],['🥥','Coconut'],['🍆','Eggplant'],['🥦','Broccoli'],['🌶️','Chili'],['🌴','Palm tree'],['🍑','Peach'],['🥒','Cucumber'],['🌷','Tulip'],['🍒','Cherry'],['🍐','Pear'],['🧅','Onion']]}};
+function soal(bn){
+  const c=lvl==3?r(1,2):lvl,pool=D[c][bn?'h':'e'],all=D[c].e.concat(D[c].h);
+  let it,n=0;
+  do{it=pool[r(0,pool.length-1)]}while(used.includes(it[1])&&++n<30);
+  used.push(it[1]);
+  const o=new Set([it[1]]);
+  while(o.size<4)o.add(all[r(0,all.length-1)][1]);
+  return{t:it[0],k:it[1],o:[...o].sort(()=>Math.random()-.5)};
+}
+document.querySelectorAll('#lv .btn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#lv .btn').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');lvl=+b.dataset.l;
+});
+$('go').onclick=()=>{bunyi('start');wins=[0,0];round=1;ronde()};
+$('again').onclick=()=>{$('end').hidden=true;if(round<3){round++;ronde()}else $('start').hidden=false};
+$('fs').onclick=()=>{const d=document.documentElement;(d.requestFullscreen||d.webkitRequestFullscreen||(()=>{})).call(d)};
+function gerak(i){$('c'+i).style.left=(pos[i]*.84)+'%';$('p'+i).textContent=pos[i]+'%'}
+function ronde(){
+  pos=[0,0];qn=0;streak=[0,0];used=[];gerak(0);gerak(1);
+  $('start').hidden=true;$('end').hidden=true;$('game').hidden=false;
+  next();
+}
+function next(){
+  bonus=Math.random()<.2;ans=soal(bonus);locked=false;
+  $('l0').classList.remove('act');$('l1').classList.remove('act');
+  $('who').className='';$('panel').className='panel';$('siap').hidden=true;
+  $('who').textContent=bonus?'⭐ SOAL BONUS, nilainya 2x! Tim mana yang menjawab?':'Tim mana yang mau menjawab? Pilih dulu!';
+  $('info').textContent='Ronde '+round+'/3 — Soal '+(qn+1)+'/'+SOAL;
+  $('qt').className=bonus?'bn':'';
+  $('qt').innerHTML=(bonus?'<i class="bs">⭐</i>':'')+ans.t;
+  $('pick').hidden=false;$('ans').hidden=true;$('tmw').hidden=true;
+  const box=$('ans');box.innerHTML='';
+  ans.o.forEach(v=>{
+    const b=document.createElement('button');b.className='btn';b.textContent=v;
+    b.onclick=()=>pilih(b,v);box.appendChild(b);
+  });
+}
+function mulai(t){
+  turn=t;$('pick').hidden=true;$('ans').hidden=false;$('tmw').hidden=false;
+  $('l'+t).classList.add('act');
+  $('who').textContent=(t?'🔵 TIM BIRU':'🔴 TIM MERAH')+' SEDANG MENJAWAB!';
+  $('who').className='w'+t;$('panel').className='panel p'+t;$('qt').classList.add('q'+t);
+  const t0=performance.now();clearInterval(timer);
+  timer=setInterval(()=>{
+    const p=Math.max(0,1-(performance.now()-t0)/TIME);
+    $('tm').style.width=p*100+'%';
+    if(p<=0){clearInterval(timer);if(!locked)pilih(null,null)}
+  },100);
+}
+function pilih(btn,v){
+  if(locked)return;locked=true;clearInterval(timer);
+  [...$('ans').children].forEach(b=>{
+    if(b.textContent===ans.k)b.classList.add('ok');
+    else if(b===btn)b.classList.add('no');
+  });
+  if(v===ans.k){
+    streak[turn]++;const turbo=streak[turn]>=3,d=(turbo?15:10)*(bonus?2:1);
+    pos[turn]=Math.min(100,pos[turn]+d);gerak(turn);bunyi('ok');
+    pop(turbo?'TURBO x'+streak[turn]+'! 🔥 +'+d:bonus?'BONUS! +'+d:'BENAR! +'+d);
+    setTimeout(selesaiGiliran,1500);
+  }else{
+    streak[turn]=0;pos[turn]=Math.max(0,pos[turn]-5);gerak(turn);bunyi('no');
+    pop((v===null?'WAKTU HABIS!':'SALAH!')+' -5');
+    setTimeout(selesaiGiliran,1800);
+  }
+}
+function selesaiGiliran(){
+  qn++;
+  if(pos[0]>=100||pos[1]>=100||qn>=SOAL){akhirRonde();return}
+  siap(3);
+}
+function siap(n){
+  $('siap').hidden=false;
+  $('siap').innerHTML='Bersiap-siap!<b>'+n+'</b>Soal '+(qn+1)+' dari '+SOAL+' akan muncul';
+  setTimeout(()=>{if(n>1)siap(n-1);else{$('siap').hidden=true;next()}},1000);
+}
+function akhirRonde(){
+  const w=pos[0]>pos[1]?0:pos[1]>pos[0]?1:-1,akhir=round>=3;
+  if(w>=0)wins[w]++;
+  $('game').hidden=true;$('end').hidden=false;bunyi('win');
+  $('trophy').textContent=w>=0?'🏆':'🤝';
+  $('win').textContent=w>=0?NAMA[w]+' Menang Ronde '+round+'!':'Ronde '+round+' Seri!';
+  if(akhir){
+    const j=wins[0]>wins[1]?0:wins[1]>wins[0]?1:-1;
+    $('trophy').textContent=j>=0?'👑':'🤝';
+    $('win').textContent=j>=0?'JUARA: '+NAMA[j]+'!':'Pertandingan Seri!';
+  }
+  $('skor').textContent='Skor ronde — Merah '+wins[0]+' : '+wins[1]+' Biru';
+  $('again').textContent=akhir?'MAIN LAGI':'RONDE BERIKUTNYA';
+}
+function pop(t){
+  const p=document.createElement('div');p.className='pop';p.textContent=t;
+  $('track').appendChild(p);setTimeout(()=>p.remove(),1100);
+}
+</script>
+</body>
+</html>
